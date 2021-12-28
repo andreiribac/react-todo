@@ -33,30 +33,7 @@ code {
 		height: 100vh;
 		background: #f4f6f8;
 	}
-	&__list {
-		font-size: 14px;
-		font-weight: 500;
-		li {
-			display: flex;
-			align-items: center;
-      padding: 10px 12px;
-			border-radius: 4px;
-      cursor: pointer;
-      &:first-child {
-        margin-bottom: 20px;
-      }
-      &.active,
-      &:hover {
-        background: #FFFFFF;
-        box-shadow: 0px 2px 10px rgba(0, 0, 0, 0.03);
-      }
-		}
-		i {
-			display: inline-flex;
-			align-items: center;
-			margin-right: 10px;
-		}
-	}
+	
 	&__tasks {
 		flex: 1;
 	}
