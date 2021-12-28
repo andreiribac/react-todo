@@ -1,21 +1,27 @@
 import React from 'react';
+import classNames from 'classnames';
 
 import './List.scss'
 
 import listSvg from '../../assets/img/list.svg';
 
-function List({ items }) {
+function List({ items, isRemovable }) {
 	return (
 		<ul className="list">
 			{
 				items.map(item => <li
-					className={item.active ? 'active' : ''} 
+					// className={item.active ? 'active' : ''} 
+					className={classNames(
+						item.className,
+						{'active': item.active}
+						)
+					}
 					key={item.name}
 				>
 					<span className="list__img">
 						{item.color
 							? <i className={`badge badge--${item.color}`}></i>
-							: <img src={listSvg} alt="List icon" />
+							: item.icon
 						}
 					</span>
 					<span className="list__text">
