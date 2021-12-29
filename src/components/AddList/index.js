@@ -1,16 +1,23 @@
-import React from 'react';
+import React, { useState } from 'react';
+import classNames from 'classnames';
 
 import List from '../List';
+import Badge from '../Badge';
+
+import closeSvg from '../../assets/img/close.svg'
 
 import './AddList.scss';
 
-function AddList() {
+function AddList({colors}) {
 
-	// TODO 1.08.18 https://www.youtube.com/watch?v=PsQC6zOo3FI&list=PL0FGkDGJQjJGBcY_b625HqAKL4i5iNZGs&index=2
+	const [visiblePopup, setVisiblePopup] = useState(true);
+	const [selectedColor, setSelectedColor] = useState(colors[0].id);
+	console.log('selectedColor: ', selectedColor);
 
 	return (
 		<div className='add-list'>
 			<List
+				onClick={() => setVisiblePopup(true)}
 				items={[
 					{
 						color: null,
@@ -24,9 +31,26 @@ function AddList() {
 					},
 				]}
 			/>
-			<div className="add-list__popup">
+			{visiblePopup &&
+				<div className="add-list__popup">
+					<div onClick={() => setVisiblePopup(false)} className="add-list__popup-close-btn">
+						<img src={closeSvg} alt="" />
+					</div>
+					<label className='field'>
+						<input className='field__input' placeholder='Название папки' type="text" />
+					</label>
+					<div className='add-list__popup-colors'>
+						{colors.map(color => <Badge
+							key={color.id}
+							onClick={() => setSelectedColor(color.id)}
+							className={classNames('badge--big', { 'active': color.id === selectedColor})}
+							color={color.name}
+						/>)}
+					</div>
+					<button className='btn btn--w100'>Добавить</button>
+				</div>
+			}
 
-			</div>
 		</div>
 	)
 }

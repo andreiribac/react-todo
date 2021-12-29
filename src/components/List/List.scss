@@ -46,26 +46,3 @@
 		}
 	}
 }
-.badge {
-	display: inline-flex;
-	align-items: center;
-	justify-content: center;
-	width: 10px;
-	height: 10px;
-	border-radius: 50%;
-	&--green {
-		background-color: #42b883;
-	}
-	&--blue {
-		background-color: #64c4ed;
-	}
-	&--pink {
-		background-color: #ffbbcc;
-	}
-	&--mint {
-		background-color: #B6E6BD;
-	}
-	&--gray {
-		background-color: #C9D1D3;
-	}
-}

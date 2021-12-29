@@ -3,6 +3,8 @@ import React, { useEffect } from 'react';
 import List from './components/List';
 import AddList from './components/AddList';
 
+import DB from './assets/db.json';
+
 function App() {
 	useEffect(() => {
 		document.title = "React ToDo";
@@ -41,19 +43,19 @@ function App() {
 							active: false,
 						},
 						{
-							color: "mint",
+							color: "lime",
 							name: "Книги",
 							active: false,
 						},
 						{
-							color: "gray",
+							color: "grey",
 							name: "Личное",
 							active: false,
 						},
 					]}
 					isRemovable
 				/>
-				<AddList />
+				<AddList colors={DB.colors} />
 			</div>
 			<div className="todo__tasks">
 
