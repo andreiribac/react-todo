@@ -1,11 +1,13 @@
-import React, { useEffect } from 'react';
+import React, { useEffect, useState } from 'react';
 
 import List from './components/List';
 import AddList from './components/AddList';
 
 import DB from './assets/db.json';
 
+// TODO 23.39 https://www.youtube.com/watch?v=08_6vPv8UMs&list=PL0FGkDGJQjJGBcY_b625HqAKL4i5iNZGs&index=3
 function App() {
+	const [lists, setLists] = useState('')
 	useEffect(() => {
 		document.title = "React ToDo";
 	});
@@ -55,10 +57,17 @@ function App() {
 					]}
 					isRemovable
 				/>
+				<List
+					items={DB.lists.map(item => {
+						item.color = DB.colors.filter(color => color.id === item.colorId)[0].name;
+						return item
+					})}
+					isRemovable
+				/>
 				<AddList colors={DB.colors} />
 			</div>
 			<div className="todo__tasks">
-
+				
 			</div>
 		</div>
 	);
