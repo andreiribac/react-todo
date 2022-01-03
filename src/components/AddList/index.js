@@ -8,12 +8,26 @@ import closeSvg from '../../assets/img/close.svg'
 
 import './AddList.scss';
 
-function AddList({colors}) {
+function AddList({ colors, onAddList}) {
 
 	const [visiblePopup, setVisiblePopup] = useState(true);
 	const [selectedColor, setSelectedColor] = useState(colors[0].id);
-	console.log('selectedColor: ', selectedColor);
+	const [inputValue, setInputValue] = useState('');
 
+	const addNewList = () => {
+		if (!inputValue) {
+			alert('Введите название списка');
+			return;
+		}
+		let newID = Math.floor(Math.random() * 100);
+		const color = colors.filter(c => c.id === selectedColor)[0].name;
+		const colorID = colors.filter(c => c.id === selectedColor)[0].id;
+		let newList = { "id": newID, "name": inputValue, "colorId": colorID, "color": color, };
+		onAddList(newList);
+	}
+
+	// TODO 55.27 https://www.youtube.com/watch?v=08_6vPv8UMs&list=PL0FGkDGJQjJGBcY_b625HqAKL4i5iNZGs&index=3
+	
 	return (
 		<div className='add-list'>
 			<List
@@ -37,17 +51,22 @@ function AddList({colors}) {
 						<img src={closeSvg} alt="" />
 					</div>
 					<label className='field'>
-						<input className='field__input' placeholder='Название папки' type="text" />
+						<input
+							value={inputValue}
+							onChange={e => setInputValue(e.target.value)}
+							className='field__input'
+							placeholder='Название папки'
+							type="text" />
 					</label>
 					<div className='add-list__popup-colors'>
 						{colors.map(color => <Badge
 							key={color.id}
 							onClick={() => setSelectedColor(color.id)}
-							className={classNames('badge--big', { 'active': color.id === selectedColor})}
+							className={classNames({'badge--big': true}, { 'active': color.id === selectedColor})}
 							color={color.name}
 						/>)}
 					</div>
-					<button className='btn btn--w100'>Добавить</button>
+					<button onClick={addNewList} className='btn btn--w100'>Добавить</button>
 				</div>
 			}
 

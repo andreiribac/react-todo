@@ -5,9 +5,20 @@ import AddList from './components/AddList';
 
 import DB from './assets/db.json';
 
-// TODO 23.39 https://www.youtube.com/watch?v=08_6vPv8UMs&list=PL0FGkDGJQjJGBcY_b625HqAKL4i5iNZGs&index=3
 function App() {
-	const [lists, setLists] = useState('')
+	const [lists, setLists] = useState(DB.lists.map(item => {
+		item.color = DB.colors.filter(color => color.id === item.colorId)[0].name;
+		return item
+	}));
+
+	const onAddList = (obj) => {
+		const newList = [
+			...lists,
+			obj
+		]
+		setLists(newList);
+	}
+
 	useEffect(() => {
 		document.title = "React ToDo";
 	});
@@ -27,7 +38,7 @@ function App() {
 						},
 					]}
 				/>
-				<List
+				{/* <List
 					items={[
 						{
 							color: "green",
@@ -56,15 +67,12 @@ function App() {
 						},
 					]}
 					isRemovable
-				/>
+				/> */}
 				<List
-					items={DB.lists.map(item => {
-						item.color = DB.colors.filter(color => color.id === item.colorId)[0].name;
-						return item
-					})}
+					items={lists}
 					isRemovable
 				/>
-				<AddList colors={DB.colors} />
+				<AddList onAddList={onAddList} colors={DB.colors} />
 			</div>
 			<div className="todo__tasks">
 				

@@ -17,7 +17,7 @@ function List({ items, isRemovable, onClick }) {
 						{'active': item.active}
 						)
 					}
-					key={item.name}
+					key={`${item.name}${item.id}`}
 				>
 					<span className="list__img">
 						{item.color
