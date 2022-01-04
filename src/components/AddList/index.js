@@ -1,5 +1,6 @@
-import React, { useState } from 'react';
+import React, { useState, useEffect } from 'react';
 import classNames from 'classnames';
+import axios from 'axios';
 
 import List from '../List';
 import Badge from '../Badge';
@@ -8,32 +9,54 @@ import closeSvg from '../../assets/img/close.svg'
 
 import './AddList.scss';
 
-function AddList({ colors, onAddList}) {
+function AddList({ colors, onAddList }) {
 
 	const [visiblePopup, setVisiblePopup] = useState(false);
-	const [selectedColor, setSelectedColor] = useState(colors[0].id);
+	const [selectedColor, setSelectedColor] = useState(3);
+	const [isLoading, setIsLoading] = useState(false);
 	const [inputValue, setInputValue] = useState('');
+
+	useEffect(() => {
+		if (Array.isArray(colors)) {
+			setSelectedColor(colors[0].id);
+		}
+	}, [colors]);
 
 	const onClose = () => {
 		setVisiblePopup(false);
 		setInputValue('');
 		setSelectedColor(colors[0].id);
-	}
+	};
 
 	const addNewList = () => {
 		if (!inputValue) {
 			alert('Введите название списка');
 			return;
 		}
-		let newID = Math.floor(Math.random() * 100);
-		const color = colors.filter(c => c.id === selectedColor)[0].name;
-		const colorID = colors.filter(c => c.id === selectedColor)[0].id;
-		let newList = { "id": newID, "name": inputValue, "colorId": colorID, "color": color, };
-		onAddList(newList);
-		onClose();
+		setIsLoading(true);
+		axios
+			.post('http://localhost:3001/lists', {
+				name: inputValue,
+				colorId: selectedColor
+			})
+			.then(({ data }) => {
+				const color = colors.filter(c => c.id === selectedColor)[0].name;
+				const listObj = { ...data, color: { name: color } };
+				onAddList(listObj);
+				onClose();
+			})
+			.finally(() => {
+				setIsLoading(false);
+			});
+		// let newID = Math.floor(Math.random() * 100);
+		// const color = colors.filter(c => c.id === selectedColor)[0].name;
+		// const colorID = colors.filter(c => c.id === selectedColor)[0].id;
+		// let newList = { "id": newID, "name": inputValue, "colorId": colorID, "color": color, };
+		// onAddList(newList);
+		// onClose();
 	}
 
-	
+
 	return (
 		<div className='add-list'>
 			<List
@@ -68,7 +91,7 @@ function AddList({ colors, onAddList}) {
 						{colors.map(color => <Badge
 							key={color.id}
 							onClick={() => setSelectedColor(color.id)}
-							className={classNames({'badge--big': true}, { 'active': color.id === selectedColor})}
+							className={classNames({ 'badge--big': true }, { 'active': color.id === selectedColor })}
 							color={color.name}
 						/>)}
 					</div>

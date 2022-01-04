@@ -37,7 +37,7 @@ function List({ items, isRemovable, onClick, onRemove }) {
 					}
 					<span className="list__img">
 						{item.color
-							? <Badge color={item.color} />
+							? <Badge color={item.color.name} />
 							: item.icon
 						}
 					</span>

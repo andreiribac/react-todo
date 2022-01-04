@@ -1,29 +1,33 @@
 import React, { useEffect, useState } from 'react';
+import axios from 'axios';
 
-import List from './components/List';
-import AddList from './components/AddList';
-import Tasks from './components/Tasks';
+import { Tasks, List, AddList } from './components';
 
-import DB from './assets/db.json';
 
 function App() {
-	const [lists, setLists] = useState(DB.lists.map(item => {
-		item.color = DB.colors.filter(color => color.id === item.colorId)[0].name;
-		return item
-	}));
+// TODO 29.02  https://www.youtube.com/watch?v=ZzOzECgwRRw&list=PL0FGkDGJQjJGBcY_b625HqAKL4i5iNZGs&index=4
 
-	const onAddList = (obj) => {
-		const newList = [
-			...lists,
-			obj
-		]
+	const [lists, setLists] = useState(null);
+	const [colors, setColors] = useState(null);
+
+	const onAddList = obj => {
+		const newList = [...lists, obj];
 		setLists(newList);
-	}
+	};
 
 	useEffect(() => {
 		document.title = "React ToDo";
-	});
+		axios
+			.get('http://localhost:3001/lists?_expand=color&_embed=tasks')
+			.then(({ data }) => {
+				setLists(data);
+			});
+		axios.get('http://localhost:3001/colors').then(({ data }) => {
+			setColors(data);
+			
+		});
 
+	}, []);
 	return (
 		<div className='todo'>
 			<div className="todo__sidebar">
@@ -39,12 +43,14 @@ function App() {
 						},
 					]}
 				/>
-				<List
+				{lists ? (<List
 					items={lists}
 					isRemovable
 					onRemove={(item) => alert(item)}
-				/>
-				<AddList onAddList={onAddList} colors={DB.colors} />
+				/>)
+					: ('Loading')
+				}
+				<AddList onAddList={onAddList} colors={colors} />
 			</div>
 			<div className="todo__tasks">
 				<Tasks />
