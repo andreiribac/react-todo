@@ -10,9 +10,15 @@ import './AddList.scss';
 
 function AddList({ colors, onAddList}) {
 
-	const [visiblePopup, setVisiblePopup] = useState(true);
+	const [visiblePopup, setVisiblePopup] = useState(false);
 	const [selectedColor, setSelectedColor] = useState(colors[0].id);
 	const [inputValue, setInputValue] = useState('');
+
+	const onClose = () => {
+		setVisiblePopup(false);
+		setInputValue('');
+		setSelectedColor(colors[0].id);
+	}
 
 	const addNewList = () => {
 		if (!inputValue) {
@@ -24,9 +30,9 @@ function AddList({ colors, onAddList}) {
 		const colorID = colors.filter(c => c.id === selectedColor)[0].id;
 		let newList = { "id": newID, "name": inputValue, "colorId": colorID, "color": color, };
 		onAddList(newList);
+		onClose();
 	}
 
-	// TODO 55.27 https://www.youtube.com/watch?v=08_6vPv8UMs&list=PL0FGkDGJQjJGBcY_b625HqAKL4i5iNZGs&index=3
 	
 	return (
 		<div className='add-list'>
@@ -47,7 +53,7 @@ function AddList({ colors, onAddList}) {
 			/>
 			{visiblePopup &&
 				<div className="add-list__popup">
-					<div onClick={() => setVisiblePopup(false)} className="add-list__popup-close-btn">
+					<div onClick={onClose} className="add-list__popup-close-btn">
 						<img src={closeSvg} alt="" />
 					</div>
 					<label className='field'>

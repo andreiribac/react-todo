@@ -2,6 +2,7 @@ import React, { useEffect, useState } from 'react';
 
 import List from './components/List';
 import AddList from './components/AddList';
+import Tasks from './components/Tasks';
 
 import DB from './assets/db.json';
 
@@ -38,44 +39,15 @@ function App() {
 						},
 					]}
 				/>
-				{/* <List
-					items={[
-						{
-							color: "green",
-							name: "Покупки",
-							active: false,
-						},
-						{
-							color: "blue",
-							name: "Фронтенд",
-							active: false,
-						},
-						{
-							color: "pink",
-							name: "Фильмы и сериалы",
-							active: false,
-						},
-						{
-							color: "lime",
-							name: "Книги",
-							active: false,
-						},
-						{
-							color: "grey",
-							name: "Личное",
-							active: false,
-						},
-					]}
-					isRemovable
-				/> */}
 				<List
 					items={lists}
 					isRemovable
+					onRemove={(item) => alert(item)}
 				/>
 				<AddList onAddList={onAddList} colors={DB.colors} />
 			</div>
 			<div className="todo__tasks">
-				
+				<Tasks />
 			</div>
 		</div>
 	);

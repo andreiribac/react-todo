@@ -39,6 +39,7 @@ code {
 	&__tasks {
 		position: relative;
 		flex: 1;
+		padding: 60px 15px;
 		z-index: 1;
 	}
 }
@@ -97,3 +98,10 @@ code {
 		background: darken($color: #4dd599, $amount: 30%);
 	}
 }
+
+h2, .h2 {
+	font-size: 32px;
+	font-weight: 700;
+}
+
+
