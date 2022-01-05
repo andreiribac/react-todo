@@ -54,6 +54,33 @@
 		width: 100%;
 		border: none;
 	}
+	&__form {
+
+	}
+	&__form-new {
+		display: flex;
+		align-items: center;
+		color: #c7c7c7;
+		cursor: pointer;
+		img {
+			display: block;
+			width: 20px;
+			height: 20px;
+			margin-right: 16px;
+			opacity: 0.2;
+		}
+		&:hover {
+			color: #000;
+			img {
+				opacity: 0.9;
+			}
+		}
+	}
+	&__form-btn-box {
+		& > * + * {
+			margin-left: 15px;
+		}
+	}
 }
 
 .checkbox {

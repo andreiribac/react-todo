@@ -9,7 +9,7 @@ import removeSvg from '../../assets/img/remove.svg';
 import './List.scss';
 
 
-function List({ items, isRemovable, onClick, onRemove }) {
+function List({ items, isRemovable, onClick, onRemove, onClickItem, activeItem }) {
 
 	const removeList = (item) => {
 		if (window.confirm('Вы действительно хотите удалить список?')) {
@@ -23,12 +23,12 @@ function List({ items, isRemovable, onClick, onRemove }) {
 		<ul onClick={onClick} className="list">
 			{
 				items.map(item => <li
-					// className={item.active ? 'active' : ''} 
 					className={classNames(
 						item.className,
-						{ 'active': item.active }
+						{ 'active': activeItem && activeItem.id === item.id }
 					)
 					}
+					onClick={onClickItem ? () => onClickItem(item) : null}
 					key={`${item.name}${item.id}`}
 				>
 					{isRemovable &&
