@@ -48,12 +48,6 @@ function AddList({ colors, onAddList }) {
 			.finally(() => {
 				setIsLoading(false);
 			});
-		// let newID = Math.floor(Math.random() * 100);
-		// const color = colors.filter(c => c.id === selectedColor)[0].name;
-		// const colorID = colors.filter(c => c.id === selectedColor)[0].id;
-		// let newList = { "id": newID, "name": inputValue, "colorId": colorID, "color": color, };
-		// onAddList(newList);
-		// onClose();
 	}
 
 
@@ -95,7 +89,9 @@ function AddList({ colors, onAddList }) {
 							color={color.name}
 						/>)}
 					</div>
-					<button onClick={addNewList} className='btn btn--w100'>Добавить</button>
+					<button onClick={addNewList} className='btn btn--w100'>
+						{isLoading ? "Добавление" : "Добавить"}
+					</button>
 				</div>
 			}
 

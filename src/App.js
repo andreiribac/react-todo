@@ -5,7 +5,6 @@ import { Tasks, List, AddList } from './components';
 
 
 function App() {
-// TODO 29.02  https://www.youtube.com/watch?v=ZzOzECgwRRw&list=PL0FGkDGJQjJGBcY_b625HqAKL4i5iNZGs&index=4
 
 	const [lists, setLists] = useState(null);
 	const [colors, setColors] = useState(null);
@@ -28,6 +27,7 @@ function App() {
 		});
 
 	}, []);
+
 	return (
 		<div className='todo'>
 			<div className="todo__sidebar">
@@ -46,14 +46,19 @@ function App() {
 				{lists ? (<List
 					items={lists}
 					isRemovable
-					onRemove={(item) => alert(item)}
+					onRemove={(id) => {
+						const newLists = lists.filter(item => item.id !== id);
+						setLists(newLists);
+					}}
 				/>)
-					: ('Loading')
+					: ('Загрузка')
 				}
 				<AddList onAddList={onAddList} colors={colors} />
 			</div>
 			<div className="todo__tasks">
-				<Tasks />
+				{lists && <Tasks
+					list={lists[0]}
+				/>}
 			</div>
 		</div>
 	);
