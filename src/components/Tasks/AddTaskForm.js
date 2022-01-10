@@ -4,11 +4,11 @@ import axios from 'axios';
 import addSvg from '../../assets/img/add.svg';
 
 import './Tasks.scss';
-// TODO 1.14.09 https://www.youtube.com/watch?v=6NuzPai9GqQ&list=PL0FGkDGJQjJGBcY_b625HqAKL4i5iNZGs&index=5
 function AddTaskForm({ list, onAddTask }) {
 
 	const [visibleForm, setVisibleForm] = useState(false);
 	const [inputValue, setInputValue] = useState('');
+	const [isLoading, setIsLoading] = useState(false);
 
 	const toggleFormVisible = () => {
 		setVisibleForm(!visibleForm);
@@ -21,9 +21,18 @@ function AddTaskForm({ list, onAddTask }) {
 			"text": inputValue,
 			"completed": false
 		};
-		onAddTask(list.id, obj)
-		setVisibleForm(!visibleForm);
-		setInputValue('');
+		setIsLoading(true);
+		axios.post('http://localhost:3001/tasks', obj).then(({ data }) => {
+
+			onAddTask(list.id, data)
+			toggleFormVisible();
+		})
+			.catch(() => {
+				alert('Ошибка при добавлении задачи!')
+			})
+			.finally(() => {
+				setIsLoading(false);
+			});
 	}
 
 	return (
@@ -41,9 +50,10 @@ function AddTaskForm({ list, onAddTask }) {
 						</label>
 						<div className="tasks__form-btn-box">
 							<button
+								disabled={isLoading}
 								onClick={addTask}
 								className='btn'>
-								Добавить задачу
+								{isLoading ? 'Добавление...' : 'Добавить задачу'}
 							</button>
 							<button
 								onClick={toggleFormVisible}

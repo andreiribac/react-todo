@@ -98,6 +98,9 @@ code {
 		color: #fff;
 		background: darken($color: #4dd599, $amount: 30%);
 	}
+	&:disabled {
+		background-color: #d8d8d8;
+	}
 }
 
 h2, .h2 {
