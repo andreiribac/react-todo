@@ -34,6 +34,7 @@ code {
 		width: 200px;
 		height: 100vh;
 		background: #f4f6f8;
+		overflow-y: auto;
 		z-index: 2;
 	}
 
@@ -41,6 +42,8 @@ code {
 		position: relative;
 		flex: 1;
 		padding: 60px 15px;
+		height: 100vh;
+		overflow-y: auto;
 		z-index: 1;
 	}
 }

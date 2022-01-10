@@ -7,7 +7,7 @@ import editSvg from '../../assets/img/edit.svg'
 
 import './Tasks.scss';
 
-function Tasks({ list, onEditTitle, onAddTask }) {
+function Tasks({ list, onEditTitle, onAddTask, withoutEmpty }) {
 
 	const editTitle = () => {
 		const newTitle = window.prompt('Хотите изменить имя папки?', `${list.name}`);
@@ -27,9 +27,9 @@ function Tasks({ list, onEditTitle, onAddTask }) {
 				<div onClick={editTitle} className="tasks__edit">
 					<img src={editSvg} alt="" />
 				</div>
-				<h2>{list.name}</h2>
+				<h2 style={{color: list.color.hex}}>{list.name}</h2>
 			</div>
-			{!list.tasks.length && <div className="h3">Задачи отсутвуют</div>}
+			{!withoutEmpty && !list.tasks.length && <div className="h3">Задачи отсутвуют</div>}
 			<ul className="tasks__list">
 				{
 					list.tasks.map((el) => {
