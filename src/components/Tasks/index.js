@@ -1,13 +1,15 @@
 import React from 'react';
 import axios from 'axios';
+import { Link } from "react-router-dom";
 
 import AddTaskForm from './AddTaskForm';
+import Task from './Task';
 
 import editSvg from '../../assets/img/edit.svg'
 
 import './Tasks.scss';
 
-function Tasks({ list, onEditTitle, onAddTask, withoutEmpty }) {
+function Tasks({ list, onEditTitle, onAddTask, withoutEmpty, onRemoveTask, onEditTask, onCompleteTask }) {
 
 	const editTitle = () => {
 		const newTitle = window.prompt('Хотите изменить имя папки?', `${list.name}`);
@@ -21,32 +23,37 @@ function Tasks({ list, onEditTitle, onAddTask, withoutEmpty }) {
 		}
 	};
 
+
+
 	return (
 		<div className="tasks">
 			<div className='tasks__title'>
 				<div onClick={editTitle} className="tasks__edit">
 					<img src={editSvg} alt="" />
 				</div>
-				<h2 style={{color: list.color.hex}}>{list.name}</h2>
+				<Link to={`/lists/${list.id}`}>
+					<h2 style={{ color: list.color.hex }}>{list.name}</h2>
+				</Link>
+				
 			</div>
-			{!withoutEmpty && !list.tasks.length && <div className="h3">Задачи отсутвуют</div>}
+			{!withoutEmpty && list.tasks && !list.tasks.length && <div className="h3">Задачи отсутвуют</div>}
 			<ul className="tasks__list">
 				{
-					list.tasks.map((el) => {
+					list.tasks && list.tasks.map((task) => {
 						return (
-							<li key={el.id} className="tasks__item">
-								{/* TODO  добавить функцию onChange для инпутов*/}
-								<label className="checkbox">
-									<input className="checkbox__input" type="checkbox" checked={el.completed} />
-									<div className="checkbox__circle"></div>
-								</label>
-								<input className='tasks__text' readOnly value={el.text} />
-							</li>
+							<Task
+								key={task.id}
+								list={list}
+								onEdit={onEditTask}
+								onRemove={onRemoveTask}
+								onComplete={onCompleteTask}
+								{...task}
+							/>
 						);
 					})
 				}
 			</ul>
-			<AddTaskForm list={list} onAddTask={onAddTask} />
+			<AddTaskForm key={list.id} list={list} onAddTask={onAddTask} />
 		</div>
 	)
 }

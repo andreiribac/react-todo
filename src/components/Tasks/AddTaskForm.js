@@ -22,11 +22,12 @@ function AddTaskForm({ list, onAddTask }) {
 			"completed": false
 		};
 		setIsLoading(true);
-		axios.post('http://localhost:3001/tasks', obj).then(({ data }) => {
-
-			onAddTask(list.id, data)
-			toggleFormVisible();
-		})
+		axios
+			.post('http://localhost:3001/tasks', obj)
+			.then(({ data }) => {
+				onAddTask(list.id, data)
+				toggleFormVisible();
+			})
 			.catch(() => {
 				alert('Ошибка при добавлении задачи!')
 			})
